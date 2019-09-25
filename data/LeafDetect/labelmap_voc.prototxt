@@ -1,0 +1,200 @@
+item {
+  name: "none_of_the_above"
+  label: 0
+  display_name: "background"
+}
+item {
+  name: "Accasellowiana"
+  label: 1
+  display_name: "Accasellowiana"
+}
+item {
+  name: "Acenegundo"
+  label: 2
+  display_name: "Acenegundo"
+}
+item {
+  name: "Acerpalmaturu"
+  label: 3
+  display_name: "Acerpalmaturu"
+}
+item {
+  name: "Aesculuscalifornica"
+  label: 4
+  display_name: "Aesculuscalifornica"
+}
+item {
+  name: "Arisarumvulgare"
+  label: 5
+  display_name: "Arisarumvulgare"
+}
+item {
+  name: "Betulapubescens"
+  label: 6
+  display_name: "Betulapubescens"
+}
+item {
+  name: "Bougainvilleasp"
+  label: 7
+  display_name: "Bougainvilleasp"
+}
+item {
+  name: "Buxussempervirens"
+  label: 8
+  display_name: "Buxussempervirens"
+}
+item {
+  name: "Castaneasativa"
+  label: 9
+  display_name: "Castaneasativa"
+}
+item {
+  name: "Celtissp"
+  label: 10
+  display_name: "Celtissp"
+}
+item {
+  name: "Chelidoniummajus"
+  label: 11
+  display_name: "Chelidoniummajus"
+}
+item {
+  name: "Corylusavellana"
+  label: 12
+  display_name: "Corylusavellana"
+}
+item {
+  name: "Crataegusmonogyna"
+  label: 13
+  display_name: "Crataegusmonogyna"
+}
+item {
+  name: "Erodiumsp"
+  label: 14
+  display_name: "Erodiumsp"
+}
+item {
+  name: "Euonymusjaponicus"
+  label: 15
+  display_name: "Euonymusjaponicus"
+}
+item {
+  name: "Fragariavesca"
+  label: 16
+  display_name: "Fragariavesca"
+}
+item {
+  name: "Fraxinussp"
+  label: 17
+  display_name: "Fraxinussp"
+}
+item {
+  name: "Geraniumsp"
+  label: 18
+  display_name: "Geraniumsp"
+}
+item {
+  name: "Hydrangeasp"
+  label: 19
+  display_name: "Hydrangeasp"
+}
+item {
+  name: "Ilexaquifolium"
+  label: 20
+  display_name: "Ilexaquifolium"
+}
+item {
+  name: "Ilexperadosspazorica"
+  label: 21
+  display_name: "Ilexperadosspazorica"
+}
+item {
+  name: "Magnoliagrandiflora"
+  label: 22
+  display_name: "Magnoliagrandiflora"
+}
+item {
+  name: "Magnoliasoulangeana"
+  label: 23
+  display_name: "Magnoliasoulangeana"
+}
+item {
+  name: "Neriumoleander"
+  label: 24
+  display_name: "Neriumoleander"
+}
+item {
+  name: "Papaversp"
+  label: 25
+  display_name: "Papaversp"
+}
+item {
+  name: "Pinussp"
+  label: 26
+  display_name: "Pinussp"
+}
+item {
+  name: "Podocarpussp"
+  label: 27
+  display_name: "Podocarpussp"
+}
+item {
+  name: "Polypodiumvulgare"
+  label: 28
+  display_name: "Polypodiumvulgare"
+}
+item {
+  name: "Populusalba"
+  label: 29
+  display_name: "Populusalba"
+}
+item {
+  name: "Populusnigra"
+  label: 30
+  display_name: "Populusnigra"
+}
+item {
+  name: "Primulavulgaris"
+  label: 31
+  display_name: "Primulavulgaris"
+}
+item {
+  name: "Pseudosasajaponica"
+  label: 32
+  display_name: "Pseudosasajaponica"
+}
+item {
+  name: "Quercusrobur"
+  label: 33
+  display_name: "Quercusrobur"
+}
+item {
+  name: "QuercusSuber"
+  label: 34
+  display_name: "QuercusSuber"
+}
+item {
+  name: "SalixAtrocinerea"
+  label: 35
+  display_name: "SalixAtrocinerea"
+}
+item {
+  name: "Schinusterebinthifolius"
+  label: 36
+  display_name: "Schinusterebinthifolius"
+}
+item {
+  name: "Taxusbacatta"
+  label: 37
+  display_name: "Taxusbacatta"
+}
+item {
+  name: "Tiliatomentosa"
+  label: 38
+  display_name: "Tiliatomentosa"
+}
+item {
+  name: "Urticadioica"
+  label: 39
+  display_name: "Urticadioica"
+}

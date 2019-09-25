@@ -1,0 +1,14 @@
+1.clone the intel caffe form git hub
+
+https://github.com/intel/caffe
+
+2. copy examples and models dir into this cloned directory
+
+3. copy Makefile.config to Cloned Directory
+a. copy lib and include files from caffe/external/mkldnn/install directroy
+
+4. compile the intel caffe and change the pynopath variable
+
+5. create lmdb abd mean for datasets
+
+6. run train and resume_train script for training

@@ -1,0 +1,2271 @@
+2,136c2,7
+< layer {
+<   name: "data"
+<   type: "Data"
+<   top: "data"
+<   top: "label"
+<   include {
+<     phase: TRAIN
+<   }
+<   transform_param {
+<     scale: 0.007843
+<     mirror: true
+<     mean_value: 127.5
+<     mean_value: 127.5
+<     mean_value: 127.5
+<     resize_param {
+<       prob: 1.0
+<       resize_mode: WARP
+<       height: 256 
+<       width: 256
+<       interp_mode: LINEAR
+<       interp_mode: AREA
+<       interp_mode: NEAREST
+<       interp_mode: CUBIC
+<       interp_mode: LANCZOS4
+<     }
+<     emit_constraint {
+<       emit_type: CENTER
+<     }
+<     distort_param {
+<       brightness_prob: 0.5
+<       brightness_delta: 32.0
+<       contrast_prob: 0.5
+<       contrast_lower: 0.5
+<       contrast_upper: 1.5
+<       hue_prob: 0.5
+<       hue_delta: 18.0
+<       saturation_prob: 0.5
+<       saturation_lower: 0.5
+<       saturation_upper: 1.5
+<       random_order_prob: 0.0
+<     }
+<     expand_param {
+<       prob: 0.5
+<       max_expand_ratio: 4.0
+<     }
+<   }
+<   data_param {
+<     source: "trainval_lmdb/"
+<     batch_size: 24
+<     backend: LMDB
+<   }
+<   annotated_data_param {
+<     batch_sampler {
+<       max_sample: 1
+<       max_trials: 1
+<     }
+<     batch_sampler {
+<       sampler {
+<         min_scale: 0.3
+<         max_scale: 1.0
+<         min_aspect_ratio: 0.5
+<         max_aspect_ratio: 2.0
+<       }
+<       sample_constraint {
+<         min_jaccard_overlap: 0.1
+<       }
+<       max_sample: 1
+<       max_trials: 50
+<     }
+<     batch_sampler {
+<       sampler {
+<         min_scale: 0.3
+<         max_scale: 1.0
+<         min_aspect_ratio: 0.5
+<         max_aspect_ratio: 2.0
+<       }
+<       sample_constraint {
+<         min_jaccard_overlap: 0.3
+<       }
+<       max_sample: 1
+<       max_trials: 50
+<     }
+<     batch_sampler {
+<       sampler {
+<         min_scale: 0.3
+<         max_scale: 1.0
+<         min_aspect_ratio: 0.5
+<         max_aspect_ratio: 2.0
+<       }
+<       sample_constraint {
+<         min_jaccard_overlap: 0.5
+<       }
+<       max_sample: 1
+<       max_trials: 50
+<     }
+<     batch_sampler {
+<       sampler {
+<         min_scale: 0.3
+<         max_scale: 1.0
+<         min_aspect_ratio: 0.5
+<         max_aspect_ratio: 2.0
+<       }
+<       sample_constraint {
+<         min_jaccard_overlap: 0.7
+<       }
+<       max_sample: 1
+<       max_trials: 50
+<     }
+<     batch_sampler {
+<       sampler {
+<         min_scale: 0.3
+<         max_scale: 1.0
+<         min_aspect_ratio: 0.5
+<         max_aspect_ratio: 2.0
+<       }
+<       sample_constraint {
+<         min_jaccard_overlap: 0.9
+<       }
+<       max_sample: 1
+<       max_trials: 50
+<     }
+<     batch_sampler {
+<       sampler {
+<         min_scale: 0.3
+<         max_scale: 1.0
+<         min_aspect_ratio: 0.5
+<         max_aspect_ratio: 2.0
+<       }
+<       sample_constraint {
+<         max_jaccard_overlap: 1.0
+<       }
+<       max_sample: 1
+<       max_trials: 50
+<     }
+<   }
+---
+> input: "data"
+> input_shape {
+>   dim: 1
+>   dim: 3
+>   dim: 224
+>   dim: 224
+144,145c15,20
+<     lr_mult: 0.1
+<     decay_mult: 0.1
+---
+>     lr_mult: 1.0
+>     decay_mult: 1.0
+>   }
+>   param {
+>     lr_mult: 2.0
+>     decay_mult: 0.0
+149d23
+<     bias_term: false
+156,193d29
+<   }
+< }
+< layer {
+<   name: "conv0/bn"
+<   type: "BatchNorm"
+<   bottom: "conv0"
+<   top: "conv0"
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+< }
+< layer {
+<   name: "conv0/scale"
+<   type: "Scale"
+<   bottom: "conv0"
+<   top: "conv0"
+<   param {
+<     lr_mult: 0.1
+<     decay_mult: 0.0
+<   }
+<   param {
+<     lr_mult: 0.2
+<     decay_mult: 0.0
+<   }
+<   scale_param {
+<     filler {
+<       value: 1
+<     }
+<     bias_term: true
+195c31,32
+<       value: 0
+---
+>       type: "constant"
+>       value: 0.0
+211,212c48,53
+<     lr_mult: 0.1
+<     decay_mult: 0.1
+---
+>     lr_mult: 1.0
+>     decay_mult: 1.0
+>   }
+>   param {
+>     lr_mult: 2.0
+>     decay_mult: 0.0
+216d56
+<     bias_term: false
+224,261d63
+<   }
+< }
+< layer {
+<   name: "conv1/dw/bn"
+<   type: "BatchNorm"
+<   bottom: "conv1/dw"
+<   top: "conv1/dw"
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+< }
+< layer {
+<   name: "conv1/dw/scale"
+<   type: "Scale"
+<   bottom: "conv1/dw"
+<   top: "conv1/dw"
+<   param {
+<     lr_mult: 0.1
+<     decay_mult: 0.0
+<   }
+<   param {
+<     lr_mult: 0.2
+<     decay_mult: 0.0
+<   }
+<   scale_param {
+<     filler {
+<       value: 1
+<     }
+<     bias_term: true
+263c65,66
+<       value: 0
+---
+>       type: "constant"
+>       value: 0.0
+279,280c82,87
+<     lr_mult: 0.1
+<     decay_mult: 0.1
+---
+>     lr_mult: 1.0
+>     decay_mult: 1.0
+>   }
+>   param {
+>     lr_mult: 2.0
+>     decay_mult: 0.0
+284d90
+<     bias_term: false
+289,326d94
+<   }
+< }
+< layer {
+<   name: "conv1/bn"
+<   type: "BatchNorm"
+<   bottom: "conv1"
+<   top: "conv1"
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+< }
+< layer {
+<   name: "conv1/scale"
+<   type: "Scale"
+<   bottom: "conv1"
+<   top: "conv1"
+<   param {
+<     lr_mult: 0.1
+<     decay_mult: 0.0
+<   }
+<   param {
+<     lr_mult: 0.2
+<     decay_mult: 0.0
+<   }
+<   scale_param {
+<     filler {
+<       value: 1
+<     }
+<     bias_term: true
+328c96,97
+<       value: 0
+---
+>       type: "constant"
+>       value: 0.0
+344,345c113,118
+<     lr_mult: 0.1
+<     decay_mult: 0.1
+---
+>     lr_mult: 1.0
+>     decay_mult: 1.0
+>   }
+>   param {
+>     lr_mult: 2.0
+>     decay_mult: 0.0
+349d121
+<     bias_term: false
+358,395d129
+<   }
+< }
+< layer {
+<   name: "conv2/dw/bn"
+<   type: "BatchNorm"
+<   bottom: "conv2/dw"
+<   top: "conv2/dw"
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+< }
+< layer {
+<   name: "conv2/dw/scale"
+<   type: "Scale"
+<   bottom: "conv2/dw"
+<   top: "conv2/dw"
+<   param {
+<     lr_mult: 0.1
+<     decay_mult: 0.0
+<   }
+<   param {
+<     lr_mult: 0.2
+<     decay_mult: 0.0
+<   }
+<   scale_param {
+<     filler {
+<       value: 1
+<     }
+<     bias_term: true
+397c131,132
+<       value: 0
+---
+>       type: "constant"
+>       value: 0.0
+413,414c148,153
+<     lr_mult: 0.1
+<     decay_mult: 0.1
+---
+>     lr_mult: 1.0
+>     decay_mult: 1.0
+>   }
+>   param {
+>     lr_mult: 2.0
+>     decay_mult: 0.0
+418d156
+<     bias_term: false
+423,460d160
+<   }
+< }
+< layer {
+<   name: "conv2/bn"
+<   type: "BatchNorm"
+<   bottom: "conv2"
+<   top: "conv2"
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+< }
+< layer {
+<   name: "conv2/scale"
+<   type: "Scale"
+<   bottom: "conv2"
+<   top: "conv2"
+<   param {
+<     lr_mult: 0.1
+<     decay_mult: 0.0
+<   }
+<   param {
+<     lr_mult: 0.2
+<     decay_mult: 0.0
+<   }
+<   scale_param {
+<     filler {
+<       value: 1
+<     }
+<     bias_term: true
+462c162,163
+<       value: 0
+---
+>       type: "constant"
+>       value: 0.0
+478,479c179,184
+<     lr_mult: 0.1
+<     decay_mult: 0.1
+---
+>     lr_mult: 1.0
+>     decay_mult: 1.0
+>   }
+>   param {
+>     lr_mult: 2.0
+>     decay_mult: 0.0
+483d187
+<     bias_term: false
+491,528d194
+<   }
+< }
+< layer {
+<   name: "conv3/dw/bn"
+<   type: "BatchNorm"
+<   bottom: "conv3/dw"
+<   top: "conv3/dw"
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+< }
+< layer {
+<   name: "conv3/dw/scale"
+<   type: "Scale"
+<   bottom: "conv3/dw"
+<   top: "conv3/dw"
+<   param {
+<     lr_mult: 0.1
+<     decay_mult: 0.0
+<   }
+<   param {
+<     lr_mult: 0.2
+<     decay_mult: 0.0
+<   }
+<   scale_param {
+<     filler {
+<       value: 1
+<     }
+<     bias_term: true
+530c196,197
+<       value: 0
+---
+>       type: "constant"
+>       value: 0.0
+546,547c213,218
+<     lr_mult: 0.1
+<     decay_mult: 0.1
+---
+>     lr_mult: 1.0
+>     decay_mult: 1.0
+>   }
+>   param {
+>     lr_mult: 2.0
+>     decay_mult: 0.0
+551d221
+<     bias_term: false
+556,593d225
+<   }
+< }
+< layer {
+<   name: "conv3/bn"
+<   type: "BatchNorm"
+<   bottom: "conv3"
+<   top: "conv3"
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+< }
+< layer {
+<   name: "conv3/scale"
+<   type: "Scale"
+<   bottom: "conv3"
+<   top: "conv3"
+<   param {
+<     lr_mult: 0.1
+<     decay_mult: 0.0
+<   }
+<   param {
+<     lr_mult: 0.2
+<     decay_mult: 0.0
+<   }
+<   scale_param {
+<     filler {
+<       value: 1
+<     }
+<     bias_term: true
+595c227,228
+<       value: 0
+---
+>       type: "constant"
+>       value: 0.0
+611,612c244,249
+<     lr_mult: 0.1
+<     decay_mult: 0.1
+---
+>     lr_mult: 1.0
+>     decay_mult: 1.0
+>   }
+>   param {
+>     lr_mult: 2.0
+>     decay_mult: 0.0
+616d252
+<     bias_term: false
+625,662d260
+<   }
+< }
+< layer {
+<   name: "conv4/dw/bn"
+<   type: "BatchNorm"
+<   bottom: "conv4/dw"
+<   top: "conv4/dw"
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+< }
+< layer {
+<   name: "conv4/dw/scale"
+<   type: "Scale"
+<   bottom: "conv4/dw"
+<   top: "conv4/dw"
+<   param {
+<     lr_mult: 0.1
+<     decay_mult: 0.0
+<   }
+<   param {
+<     lr_mult: 0.2
+<     decay_mult: 0.0
+<   }
+<   scale_param {
+<     filler {
+<       value: 1
+<     }
+<     bias_term: true
+664c262,263
+<       value: 0
+---
+>       type: "constant"
+>       value: 0.0
+680,681c279,284
+<     lr_mult: 0.1
+<     decay_mult: 0.1
+---
+>     lr_mult: 1.0
+>     decay_mult: 1.0
+>   }
+>   param {
+>     lr_mult: 2.0
+>     decay_mult: 0.0
+685d287
+<     bias_term: false
+689,729c291,294
+<     }
+<   }
+< }
+< layer {
+<   name: "conv4/bn"
+<   type: "BatchNorm"
+<   bottom: "conv4"
+<   top: "conv4"
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+< }
+< layer {
+<   name: "conv4/scale"
+<   type: "Scale"
+<   bottom: "conv4"
+<   top: "conv4"
+<   param {
+<     lr_mult: 0.1
+<     decay_mult: 0.0
+<   }
+<   param {
+<     lr_mult: 0.2
+<     decay_mult: 0.0
+<   }
+<   scale_param {
+<     filler {
+<       value: 1
+<     }
+<     bias_term: true
+<     bias_filler {
+<       value: 0
+---
+>     }
+>     bias_filler {
+>       type: "constant"
+>       value: 0.0
+745,746c310,315
+<     lr_mult: 0.1
+<     decay_mult: 0.1
+---
+>     lr_mult: 1.0
+>     decay_mult: 1.0
+>   }
+>   param {
+>     lr_mult: 2.0
+>     decay_mult: 0.0
+750d318
+<     bias_term: false
+758,795d325
+<   }
+< }
+< layer {
+<   name: "conv5/dw/bn"
+<   type: "BatchNorm"
+<   bottom: "conv5/dw"
+<   top: "conv5/dw"
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+< }
+< layer {
+<   name: "conv5/dw/scale"
+<   type: "Scale"
+<   bottom: "conv5/dw"
+<   top: "conv5/dw"
+<   param {
+<     lr_mult: 0.1
+<     decay_mult: 0.0
+<   }
+<   param {
+<     lr_mult: 0.2
+<     decay_mult: 0.0
+<   }
+<   scale_param {
+<     filler {
+<       value: 1
+<     }
+<     bias_term: true
+797c327,328
+<       value: 0
+---
+>       type: "constant"
+>       value: 0.0
+813,814c344,349
+<     lr_mult: 0.1
+<     decay_mult: 0.1
+---
+>     lr_mult: 1.0
+>     decay_mult: 1.0
+>   }
+>   param {
+>     lr_mult: 2.0
+>     decay_mult: 0.0
+818d352
+<     bias_term: false
+823,860d356
+<   }
+< }
+< layer {
+<   name: "conv5/bn"
+<   type: "BatchNorm"
+<   bottom: "conv5"
+<   top: "conv5"
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+< }
+< layer {
+<   name: "conv5/scale"
+<   type: "Scale"
+<   bottom: "conv5"
+<   top: "conv5"
+<   param {
+<     lr_mult: 0.1
+<     decay_mult: 0.0
+<   }
+<   param {
+<     lr_mult: 0.2
+<     decay_mult: 0.0
+<   }
+<   scale_param {
+<     filler {
+<       value: 1
+<     }
+<     bias_term: true
+862c358,359
+<       value: 0
+---
+>       type: "constant"
+>       value: 0.0
+878,879c375,380
+<     lr_mult: 0.1
+<     decay_mult: 0.1
+---
+>     lr_mult: 1.0
+>     decay_mult: 1.0
+>   }
+>   param {
+>     lr_mult: 2.0
+>     decay_mult: 0.0
+883d383
+<     bias_term: false
+892,929d391
+<   }
+< }
+< layer {
+<   name: "conv6/dw/bn"
+<   type: "BatchNorm"
+<   bottom: "conv6/dw"
+<   top: "conv6/dw"
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+< }
+< layer {
+<   name: "conv6/dw/scale"
+<   type: "Scale"
+<   bottom: "conv6/dw"
+<   top: "conv6/dw"
+<   param {
+<     lr_mult: 0.1
+<     decay_mult: 0.0
+<   }
+<   param {
+<     lr_mult: 0.2
+<     decay_mult: 0.0
+<   }
+<   scale_param {
+<     filler {
+<       value: 1
+<     }
+<     bias_term: true
+931c393,394
+<       value: 0
+---
+>       type: "constant"
+>       value: 0.0
+947,948c410,415
+<     lr_mult: 0.1
+<     decay_mult: 0.1
+---
+>     lr_mult: 1.0
+>     decay_mult: 1.0
+>   }
+>   param {
+>     lr_mult: 2.0
+>     decay_mult: 0.0
+952d418
+<     bias_term: false
+957,994d422
+<   }
+< }
+< layer {
+<   name: "conv6/bn"
+<   type: "BatchNorm"
+<   bottom: "conv6"
+<   top: "conv6"
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+< }
+< layer {
+<   name: "conv6/scale"
+<   type: "Scale"
+<   bottom: "conv6"
+<   top: "conv6"
+<   param {
+<     lr_mult: 0.1
+<     decay_mult: 0.0
+<   }
+<   param {
+<     lr_mult: 0.2
+<     decay_mult: 0.0
+<   }
+<   scale_param {
+<     filler {
+<       value: 1
+<     }
+<     bias_term: true
+996c424,425
+<       value: 0
+---
+>       type: "constant"
+>       value: 0.0
+1012,1013c441,446
+<     lr_mult: 0.1
+<     decay_mult: 0.1
+---
+>     lr_mult: 1.0
+>     decay_mult: 1.0
+>   }
+>   param {
+>     lr_mult: 2.0
+>     decay_mult: 0.0
+1017d449
+<     bias_term: false
+1025,1062d456
+<   }
+< }
+< layer {
+<   name: "conv7/dw/bn"
+<   type: "BatchNorm"
+<   bottom: "conv7/dw"
+<   top: "conv7/dw"
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+< }
+< layer {
+<   name: "conv7/dw/scale"
+<   type: "Scale"
+<   bottom: "conv7/dw"
+<   top: "conv7/dw"
+<   param {
+<     lr_mult: 0.1
+<     decay_mult: 0.0
+<   }
+<   param {
+<     lr_mult: 0.2
+<     decay_mult: 0.0
+<   }
+<   scale_param {
+<     filler {
+<       value: 1
+<     }
+<     bias_term: true
+1064c458,459
+<       value: 0
+---
+>       type: "constant"
+>       value: 0.0
+1080,1081c475,480
+<     lr_mult: 0.1
+<     decay_mult: 0.1
+---
+>     lr_mult: 1.0
+>     decay_mult: 1.0
+>   }
+>   param {
+>     lr_mult: 2.0
+>     decay_mult: 0.0
+1085d483
+<     bias_term: false
+1090,1127d487
+<   }
+< }
+< layer {
+<   name: "conv7/bn"
+<   type: "BatchNorm"
+<   bottom: "conv7"
+<   top: "conv7"
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+< }
+< layer {
+<   name: "conv7/scale"
+<   type: "Scale"
+<   bottom: "conv7"
+<   top: "conv7"
+<   param {
+<     lr_mult: 0.1
+<     decay_mult: 0.0
+<   }
+<   param {
+<     lr_mult: 0.2
+<     decay_mult: 0.0
+<   }
+<   scale_param {
+<     filler {
+<       value: 1
+<     }
+<     bias_term: true
+1129c489,490
+<       value: 0
+---
+>       type: "constant"
+>       value: 0.0
+1145,1146c506,511
+<     lr_mult: 0.1
+<     decay_mult: 0.1
+---
+>     lr_mult: 1.0
+>     decay_mult: 1.0
+>   }
+>   param {
+>     lr_mult: 2.0
+>     decay_mult: 0.0
+1150d514
+<     bias_term: false
+1158,1195d521
+<   }
+< }
+< layer {
+<   name: "conv8/dw/bn"
+<   type: "BatchNorm"
+<   bottom: "conv8/dw"
+<   top: "conv8/dw"
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+< }
+< layer {
+<   name: "conv8/dw/scale"
+<   type: "Scale"
+<   bottom: "conv8/dw"
+<   top: "conv8/dw"
+<   param {
+<     lr_mult: 0.1
+<     decay_mult: 0.0
+<   }
+<   param {
+<     lr_mult: 0.2
+<     decay_mult: 0.0
+<   }
+<   scale_param {
+<     filler {
+<       value: 1
+<     }
+<     bias_term: true
+1197c523,524
+<       value: 0
+---
+>       type: "constant"
+>       value: 0.0
+1213,1214c540,545
+<     lr_mult: 0.1
+<     decay_mult: 0.1
+---
+>     lr_mult: 1.0
+>     decay_mult: 1.0
+>   }
+>   param {
+>     lr_mult: 2.0
+>     decay_mult: 0.0
+1218d548
+<     bias_term: false
+1222a553,556
+>     bias_filler {
+>       type: "constant"
+>       value: 0.0
+>     }
+1226,1227c560,561
+<   name: "conv8/bn"
+<   type: "BatchNorm"
+---
+>   name: "conv8/relu"
+>   type: "ReLU"
+1230,1241d563
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+1244,1245c566,567
+<   name: "conv8/scale"
+<   type: "Scale"
+---
+>   name: "conv9/dw"
+>   type: "Convolution"
+1247c569
+<   top: "conv8"
+---
+>   top: "conv9/dw"
+1249,1250c571,572
+<     lr_mult: 0.1
+<     decay_mult: 0.0
+---
+>     lr_mult: 1.0
+>     decay_mult: 1.0
+1253c575
+<     lr_mult: 0.2
+---
+>     lr_mult: 2.0
+1256,1280d577
+<   scale_param {
+<     filler {
+<       value: 1
+<     }
+<     bias_term: true
+<     bias_filler {
+<       value: 0
+<     }
+<   }
+< }
+< layer {
+<   name: "conv8/relu"
+<   type: "ReLU"
+<   bottom: "conv8"
+<   top: "conv8"
+< }
+< layer {
+<   name: "conv9/dw"
+<   type: "Convolution"
+<   bottom: "conv8"
+<   top: "conv9/dw"
+<   param {
+<     lr_mult: 0.1
+<     decay_mult: 0.1
+<   }
+1283d579
+<     bias_term: false
+1291,1328d586
+<   }
+< }
+< layer {
+<   name: "conv9/dw/bn"
+<   type: "BatchNorm"
+<   bottom: "conv9/dw"
+<   top: "conv9/dw"
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+< }
+< layer {
+<   name: "conv9/dw/scale"
+<   type: "Scale"
+<   bottom: "conv9/dw"
+<   top: "conv9/dw"
+<   param {
+<     lr_mult: 0.1
+<     decay_mult: 0.0
+<   }
+<   param {
+<     lr_mult: 0.2
+<     decay_mult: 0.0
+<   }
+<   scale_param {
+<     filler {
+<       value: 1
+<     }
+<     bias_term: true
+1330c588,589
+<       value: 0
+---
+>       type: "constant"
+>       value: 0.0
+1346,1347c605,610
+<     lr_mult: 0.1
+<     decay_mult: 0.1
+---
+>     lr_mult: 1.0
+>     decay_mult: 1.0
+>   }
+>   param {
+>     lr_mult: 2.0
+>     decay_mult: 0.0
+1351d613
+<     bias_term: false
+1356,1393d617
+<   }
+< }
+< layer {
+<   name: "conv9/bn"
+<   type: "BatchNorm"
+<   bottom: "conv9"
+<   top: "conv9"
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+< }
+< layer {
+<   name: "conv9/scale"
+<   type: "Scale"
+<   bottom: "conv9"
+<   top: "conv9"
+<   param {
+<     lr_mult: 0.1
+<     decay_mult: 0.0
+<   }
+<   param {
+<     lr_mult: 0.2
+<     decay_mult: 0.0
+<   }
+<   scale_param {
+<     filler {
+<       value: 1
+<     }
+<     bias_term: true
+1395c619,620
+<       value: 0
+---
+>       type: "constant"
+>       value: 0.0
+1411,1412c636,641
+<     lr_mult: 0.1
+<     decay_mult: 0.1
+---
+>     lr_mult: 1.0
+>     decay_mult: 1.0
+>   }
+>   param {
+>     lr_mult: 2.0
+>     decay_mult: 0.0
+1416d644
+<     bias_term: false
+1424,1461d651
+<   }
+< }
+< layer {
+<   name: "conv10/dw/bn"
+<   type: "BatchNorm"
+<   bottom: "conv10/dw"
+<   top: "conv10/dw"
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+< }
+< layer {
+<   name: "conv10/dw/scale"
+<   type: "Scale"
+<   bottom: "conv10/dw"
+<   top: "conv10/dw"
+<   param {
+<     lr_mult: 0.1
+<     decay_mult: 0.0
+<   }
+<   param {
+<     lr_mult: 0.2
+<     decay_mult: 0.0
+<   }
+<   scale_param {
+<     filler {
+<       value: 1
+<     }
+<     bias_term: true
+1463c653,654
+<       value: 0
+---
+>       type: "constant"
+>       value: 0.0
+1479,1480c670,675
+<     lr_mult: 0.1
+<     decay_mult: 0.1
+---
+>     lr_mult: 1.0
+>     decay_mult: 1.0
+>   }
+>   param {
+>     lr_mult: 2.0
+>     decay_mult: 0.0
+1484d678
+<     bias_term: false
+1489,1526d682
+<   }
+< }
+< layer {
+<   name: "conv10/bn"
+<   type: "BatchNorm"
+<   bottom: "conv10"
+<   top: "conv10"
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+< }
+< layer {
+<   name: "conv10/scale"
+<   type: "Scale"
+<   bottom: "conv10"
+<   top: "conv10"
+<   param {
+<     lr_mult: 0.1
+<     decay_mult: 0.0
+<   }
+<   param {
+<     lr_mult: 0.2
+<     decay_mult: 0.0
+<   }
+<   scale_param {
+<     filler {
+<       value: 1
+<     }
+<     bias_term: true
+1528c684,685
+<       value: 0
+---
+>       type: "constant"
+>       value: 0.0
+1544,1545c701,706
+<     lr_mult: 0.1
+<     decay_mult: 0.1
+---
+>     lr_mult: 1.0
+>     decay_mult: 1.0
+>   }
+>   param {
+>     lr_mult: 2.0
+>     decay_mult: 0.0
+1549d709
+<     bias_term: false
+1557,1594d716
+<   }
+< }
+< layer {
+<   name: "conv11/dw/bn"
+<   type: "BatchNorm"
+<   bottom: "conv11/dw"
+<   top: "conv11/dw"
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+< }
+< layer {
+<   name: "conv11/dw/scale"
+<   type: "Scale"
+<   bottom: "conv11/dw"
+<   top: "conv11/dw"
+<   param {
+<     lr_mult: 0.1
+<     decay_mult: 0.0
+<   }
+<   param {
+<     lr_mult: 0.2
+<     decay_mult: 0.0
+<   }
+<   scale_param {
+<     filler {
+<       value: 1
+<     }
+<     bias_term: true
+1596c718,719
+<       value: 0
+---
+>       type: "constant"
+>       value: 0.0
+1612,1613c735,740
+<     lr_mult: 0.1
+<     decay_mult: 0.1
+---
+>     lr_mult: 1.0
+>     decay_mult: 1.0
+>   }
+>   param {
+>     lr_mult: 2.0
+>     decay_mult: 0.0
+1617d743
+<     bias_term: false
+1622,1659d747
+<   }
+< }
+< layer {
+<   name: "conv11/bn"
+<   type: "BatchNorm"
+<   bottom: "conv11"
+<   top: "conv11"
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+< }
+< layer {
+<   name: "conv11/scale"
+<   type: "Scale"
+<   bottom: "conv11"
+<   top: "conv11"
+<   param {
+<     lr_mult: 0.1
+<     decay_mult: 0.0
+<   }
+<   param {
+<     lr_mult: 0.2
+<     decay_mult: 0.0
+<   }
+<   scale_param {
+<     filler {
+<       value: 1
+<     }
+<     bias_term: true
+1661c749,750
+<       value: 0
+---
+>       type: "constant"
+>       value: 0.0
+1677,1678c766,771
+<     lr_mult: 0.1
+<     decay_mult: 0.1
+---
+>     lr_mult: 1.0
+>     decay_mult: 1.0
+>   }
+>   param {
+>     lr_mult: 2.0
+>     decay_mult: 0.0
+1682d774
+<     bias_term: false
+1691,1728d782
+<   }
+< }
+< layer {
+<   name: "conv12/dw/bn"
+<   type: "BatchNorm"
+<   bottom: "conv12/dw"
+<   top: "conv12/dw"
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+< }
+< layer {
+<   name: "conv12/dw/scale"
+<   type: "Scale"
+<   bottom: "conv12/dw"
+<   top: "conv12/dw"
+<   param {
+<     lr_mult: 0.1
+<     decay_mult: 0.0
+<   }
+<   param {
+<     lr_mult: 0.2
+<     decay_mult: 0.0
+<   }
+<   scale_param {
+<     filler {
+<       value: 1
+<     }
+<     bias_term: true
+1730c784,785
+<       value: 0
+---
+>       type: "constant"
+>       value: 0.0
+1746,1747c801,806
+<     lr_mult: 0.1
+<     decay_mult: 0.1
+---
+>     lr_mult: 1.0
+>     decay_mult: 1.0
+>   }
+>   param {
+>     lr_mult: 2.0
+>     decay_mult: 0.0
+1751d809
+<     bias_term: false
+1756,1793d813
+<   }
+< }
+< layer {
+<   name: "conv12/bn"
+<   type: "BatchNorm"
+<   bottom: "conv12"
+<   top: "conv12"
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+< }
+< layer {
+<   name: "conv12/scale"
+<   type: "Scale"
+<   bottom: "conv12"
+<   top: "conv12"
+<   param {
+<     lr_mult: 0.1
+<     decay_mult: 0.0
+<   }
+<   param {
+<     lr_mult: 0.2
+<     decay_mult: 0.0
+<   }
+<   scale_param {
+<     filler {
+<       value: 1
+<     }
+<     bias_term: true
+1795c815,816
+<       value: 0
+---
+>       type: "constant"
+>       value: 0.0
+1811,1812c832,837
+<     lr_mult: 0.1
+<     decay_mult: 0.1
+---
+>     lr_mult: 1.0
+>     decay_mult: 1.0
+>   }
+>   param {
+>     lr_mult: 2.0
+>     decay_mult: 0.0
+1816d840
+<     bias_term: false
+1824,1861d847
+<   }
+< }
+< layer {
+<   name: "conv13/dw/bn"
+<   type: "BatchNorm"
+<   bottom: "conv13/dw"
+<   top: "conv13/dw"
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+< }
+< layer {
+<   name: "conv13/dw/scale"
+<   type: "Scale"
+<   bottom: "conv13/dw"
+<   top: "conv13/dw"
+<   param {
+<     lr_mult: 0.1
+<     decay_mult: 0.0
+<   }
+<   param {
+<     lr_mult: 0.2
+<     decay_mult: 0.0
+<   }
+<   scale_param {
+<     filler {
+<       value: 1
+<     }
+<     bias_term: true
+1863c849,850
+<       value: 0
+---
+>       type: "constant"
+>       value: 0.0
+1879,1880c866,871
+<     lr_mult: 0.1
+<     decay_mult: 0.1
+---
+>     lr_mult: 1.0
+>     decay_mult: 1.0
+>   }
+>   param {
+>     lr_mult: 2.0
+>     decay_mult: 0.0
+1884d874
+<     bias_term: false
+1889,1926d878
+<   }
+< }
+< layer {
+<   name: "conv13/bn"
+<   type: "BatchNorm"
+<   bottom: "conv13"
+<   top: "conv13"
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+< }
+< layer {
+<   name: "conv13/scale"
+<   type: "Scale"
+<   bottom: "conv13"
+<   top: "conv13"
+<   param {
+<     lr_mult: 0.1
+<     decay_mult: 0.0
+<   }
+<   param {
+<     lr_mult: 0.2
+<     decay_mult: 0.0
+<   }
+<   scale_param {
+<     filler {
+<       value: 1
+<     }
+<     bias_term: true
+1928c880,881
+<       value: 0
+---
+>       type: "constant"
+>       value: 0.0
+1944,1981c897,898
+<     lr_mult: 0.1
+<     decay_mult: 0.1
+<   }
+<   convolution_param {
+<     num_output: 256
+<     bias_term: false
+<     kernel_size: 1
+<     weight_filler {
+<       type: "msra"
+<     }
+<   }
+< }
+< layer {
+<   name: "conv14_1/bn"
+<   type: "BatchNorm"
+<   bottom: "conv14_1"
+<   top: "conv14_1"
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+< }
+< layer {
+<   name: "conv14_1/scale"
+<   type: "Scale"
+<   bottom: "conv14_1"
+<   top: "conv14_1"
+<   param {
+<     lr_mult: 0.1
+<     decay_mult: 0.0
+---
+>     lr_mult: 1.0
+>     decay_mult: 1.0
+1984c901
+<     lr_mult: 0.2
+---
+>     lr_mult: 2.0
+1987,1989c904,908
+<   scale_param {
+<     filler {
+<       value: 1
+---
+>   convolution_param {
+>     num_output: 256
+>     kernel_size: 1
+>     weight_filler {
+>       type: "msra"
+1991d909
+<     bias_term: true
+1993c911,912
+<       value: 0
+---
+>       type: "constant"
+>       value: 0.0
+2009,2010c928,933
+<     lr_mult: 0.1
+<     decay_mult: 0.1
+---
+>     lr_mult: 1.0
+>     decay_mult: 1.0
+>   }
+>   param {
+>     lr_mult: 2.0
+>     decay_mult: 0.0
+2014d936
+<     bias_term: false
+2021,2058d942
+<   }
+< }
+< layer {
+<   name: "conv14_2/bn"
+<   type: "BatchNorm"
+<   bottom: "conv14_2"
+<   top: "conv14_2"
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+< }
+< layer {
+<   name: "conv14_2/scale"
+<   type: "Scale"
+<   bottom: "conv14_2"
+<   top: "conv14_2"
+<   param {
+<     lr_mult: 0.1
+<     decay_mult: 0.0
+<   }
+<   param {
+<     lr_mult: 0.2
+<     decay_mult: 0.0
+<   }
+<   scale_param {
+<     filler {
+<       value: 1
+<     }
+<     bias_term: true
+2060c944,945
+<       value: 0
+---
+>       type: "constant"
+>       value: 0.0
+2076,2077c961,966
+<     lr_mult: 0.1
+<     decay_mult: 0.1
+---
+>     lr_mult: 1.0
+>     decay_mult: 1.0
+>   }
+>   param {
+>     lr_mult: 2.0
+>     decay_mult: 0.0
+2081d969
+<     bias_term: false
+2086,2123d973
+<   }
+< }
+< layer {
+<   name: "conv15_1/bn"
+<   type: "BatchNorm"
+<   bottom: "conv15_1"
+<   top: "conv15_1"
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+< }
+< layer {
+<   name: "conv15_1/scale"
+<   type: "Scale"
+<   bottom: "conv15_1"
+<   top: "conv15_1"
+<   param {
+<     lr_mult: 0.1
+<     decay_mult: 0.0
+<   }
+<   param {
+<     lr_mult: 0.2
+<     decay_mult: 0.0
+<   }
+<   scale_param {
+<     filler {
+<       value: 1
+<     }
+<     bias_term: true
+2125c975,976
+<       value: 0
+---
+>       type: "constant"
+>       value: 0.0
+2141,2142c992,997
+<     lr_mult: 0.1
+<     decay_mult: 0.1
+---
+>     lr_mult: 1.0
+>     decay_mult: 1.0
+>   }
+>   param {
+>     lr_mult: 2.0
+>     decay_mult: 0.0
+2146d1000
+<     bias_term: false
+2153,2190d1006
+<   }
+< }
+< layer {
+<   name: "conv15_2/bn"
+<   type: "BatchNorm"
+<   bottom: "conv15_2"
+<   top: "conv15_2"
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+< }
+< layer {
+<   name: "conv15_2/scale"
+<   type: "Scale"
+<   bottom: "conv15_2"
+<   top: "conv15_2"
+<   param {
+<     lr_mult: 0.1
+<     decay_mult: 0.0
+<   }
+<   param {
+<     lr_mult: 0.2
+<     decay_mult: 0.0
+<   }
+<   scale_param {
+<     filler {
+<       value: 1
+<     }
+<     bias_term: true
+2192c1008,1009
+<       value: 0
+---
+>       type: "constant"
+>       value: 0.0
+2208,2209c1025,1030
+<     lr_mult: 0.1
+<     decay_mult: 0.1
+---
+>     lr_mult: 1.0
+>     decay_mult: 1.0
+>   }
+>   param {
+>     lr_mult: 2.0
+>     decay_mult: 0.0
+2213d1033
+<     bias_term: false
+2218,2255d1037
+<   }
+< }
+< layer {
+<   name: "conv16_1/bn"
+<   type: "BatchNorm"
+<   bottom: "conv16_1"
+<   top: "conv16_1"
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+< }
+< layer {
+<   name: "conv16_1/scale"
+<   type: "Scale"
+<   bottom: "conv16_1"
+<   top: "conv16_1"
+<   param {
+<     lr_mult: 0.1
+<     decay_mult: 0.0
+<   }
+<   param {
+<     lr_mult: 0.2
+<     decay_mult: 0.0
+<   }
+<   scale_param {
+<     filler {
+<       value: 1
+<     }
+<     bias_term: true
+2257c1039,1040
+<       value: 0
+---
+>       type: "constant"
+>       value: 0.0
+2273,2274c1056,1061
+<     lr_mult: 0.1
+<     decay_mult: 0.1
+---
+>     lr_mult: 1.0
+>     decay_mult: 1.0
+>   }
+>   param {
+>     lr_mult: 2.0
+>     decay_mult: 0.0
+2278d1064
+<     bias_term: false
+2285,2322d1070
+<   }
+< }
+< layer {
+<   name: "conv16_2/bn"
+<   type: "BatchNorm"
+<   bottom: "conv16_2"
+<   top: "conv16_2"
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+< }
+< layer {
+<   name: "conv16_2/scale"
+<   type: "Scale"
+<   bottom: "conv16_2"
+<   top: "conv16_2"
+<   param {
+<     lr_mult: 0.1
+<     decay_mult: 0.0
+<   }
+<   param {
+<     lr_mult: 0.2
+<     decay_mult: 0.0
+<   }
+<   scale_param {
+<     filler {
+<       value: 1
+<     }
+<     bias_term: true
+2324c1072,1073
+<       value: 0
+---
+>       type: "constant"
+>       value: 0.0
+2340,2341c1089,1094
+<     lr_mult: 0.1
+<     decay_mult: 0.1
+---
+>     lr_mult: 1.0
+>     decay_mult: 1.0
+>   }
+>   param {
+>     lr_mult: 2.0
+>     decay_mult: 0.0
+2345d1097
+<     bias_term: false
+2350,2387d1101
+<   }
+< }
+< layer {
+<   name: "conv17_1/bn"
+<   type: "BatchNorm"
+<   bottom: "conv17_1"
+<   top: "conv17_1"
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+< }
+< layer {
+<   name: "conv17_1/scale"
+<   type: "Scale"
+<   bottom: "conv17_1"
+<   top: "conv17_1"
+<   param {
+<     lr_mult: 0.1
+<     decay_mult: 0.0
+<   }
+<   param {
+<     lr_mult: 0.2
+<     decay_mult: 0.0
+<   }
+<   scale_param {
+<     filler {
+<       value: 1
+<     }
+<     bias_term: true
+2389c1103,1104
+<       value: 0
+---
+>       type: "constant"
+>       value: 0.0
+2405,2406c1120,1125
+<     lr_mult: 0.1
+<     decay_mult: 0.1
+---
+>     lr_mult: 1.0
+>     decay_mult: 1.0
+>   }
+>   param {
+>     lr_mult: 2.0
+>     decay_mult: 0.0
+2410d1128
+<     bias_term: false
+2417,2454d1134
+<   }
+< }
+< layer {
+<   name: "conv17_2/bn"
+<   type: "BatchNorm"
+<   bottom: "conv17_2"
+<   top: "conv17_2"
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+<   param {
+<     lr_mult: 0
+<     decay_mult: 0
+<   }
+< }
+< layer {
+<   name: "conv17_2/scale"
+<   type: "Scale"
+<   bottom: "conv17_2"
+<   top: "conv17_2"
+<   param {
+<     lr_mult: 0.1
+<     decay_mult: 0.0
+<   }
+<   param {
+<     lr_mult: 0.2
+<     decay_mult: 0.0
+<   }
+<   scale_param {
+<     filler {
+<       value: 1
+<     }
+<     bias_term: true
+2456c1136,1137
+<       value: 0
+---
+>       type: "constant"
+>       value: 0.0
+2472,2473c1153,1154
+<     lr_mult: 0.1
+<     decay_mult: 0.1
+---
+>     lr_mult: 1.0
+>     decay_mult: 1.0
+2476c1157
+<     lr_mult: 0.2
+---
+>     lr_mult: 2.0
+2582,2583c1263,1264
+<     lr_mult: 0.1
+<     decay_mult: 0.1
+---
+>     lr_mult: 1.0
+>     decay_mult: 1.0
+2586c1267
+<     lr_mult: 0.2
+---
+>     lr_mult: 2.0
+2694,2695c1375,1376
+<     lr_mult: 0.1
+<     decay_mult: 0.1
+---
+>     lr_mult: 1.0
+>     decay_mult: 1.0
+2698c1379
+<     lr_mult: 0.2
+---
+>     lr_mult: 2.0
+2806,2807c1487,1488
+<     lr_mult: 0.1
+<     decay_mult: 0.1
+---
+>     lr_mult: 1.0
+>     decay_mult: 1.0
+2810c1491
+<     lr_mult: 0.2
+---
+>     lr_mult: 2.0
+2918,2919c1599,1600
+<     lr_mult: 0.1
+<     decay_mult: 0.1
+---
+>     lr_mult: 1.0
+>     decay_mult: 1.0
+2922c1603
+<     lr_mult: 0.2
+---
+>     lr_mult: 2.0
+3030,3031c1711,1712
+<     lr_mult: 0.1
+<     decay_mult: 0.1
+---
+>     lr_mult: 1.0
+>     decay_mult: 1.0
+3034c1715
+<     lr_mult: 0.2
+---
+>     lr_mult: 2.0
+3179,3181c1860,1861
+<   name: "mbox_loss"
+<   type: "MultiBoxLoss"
+<   bottom: "mbox_loc"
+---
+>   name: "mbox_conf_reshape"
+>   type: "Reshape"
+3182a1863,1894
+>   top: "mbox_conf_reshape"
+>   reshape_param {
+>     shape {
+>       dim: 0
+>       dim: -1
+>       dim: 251
+>     }
+>   }
+> }
+> layer {
+>   name: "mbox_conf_softmax"
+>   type: "Softmax"
+>   bottom: "mbox_conf_reshape"
+>   top: "mbox_conf_softmax"
+>   softmax_param {
+>     axis: 2
+>   }
+> }
+> layer {
+>   name: "mbox_conf_flatten"
+>   type: "Flatten"
+>   bottom: "mbox_conf_softmax"
+>   top: "mbox_conf_flatten"
+>   flatten_param {
+>     axis: 1
+>   }
+> }
+> layer {
+>   name: "detection_out"
+>   type: "DetectionOutput"
+>   bottom: "mbox_loc"
+>   bottom: "mbox_conf_flatten"
+3184,3185c1896
+<   bottom: "label"
+<   top: "mbox_loss"
+---
+>   top: "detection_out"
+3187c1898
+<     phase: TRAIN
+---
+>     phase: TEST
+3189,3199c1900
+<   propagate_down: true
+<   propagate_down: true
+<   propagate_down: false
+<   propagate_down: false
+<   loss_param {
+<     normalization: VALID
+<   }
+<   multibox_loss_param {
+<     loc_loss_type: SMOOTH_L1
+<     conf_loss_type: SOFTMAX
+<     loc_weight: 1.0
+---
+>   detection_output_param {
+3202,3204d1902
+<     match_type: PER_PREDICTION
+<     overlap_threshold: 0.5
+<     use_prior_for_matching: true
+3206,3208c1904,1907
+<     use_difficult_gt: true
+<     neg_pos_ratio: 3.0
+<     neg_overlap: 0.5
+---
+>     nms_param {
+>       nms_threshold: 0.45
+>       top_k: 100
+>     }
+3210,3211c1909,1910
+<     ignore_cross_boundary_bbox: false
+<     mining_type: MAX_NEGATIVE
+---
+>     keep_top_k: 100
+>     confidence_threshold: 0.25

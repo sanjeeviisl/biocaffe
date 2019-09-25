@@ -1,0 +1,15 @@
+item {
+  name: "none_of_the_above"
+  label: 0
+  display_name: "background"
+}
+item {
+  name: "Potato_Early_blight"
+  label: 1
+  display_name: "Potato_Early_blight"
+}
+item {
+  name: "Potato_healthy"
+  label: 2
+  display_name: "Potato_healthy"
+}
