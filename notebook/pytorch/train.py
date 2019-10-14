@@ -124,7 +124,12 @@ def train():
             adjust_learning_rate(optimizer, args.gamma, step_index)
 
         # load train data
-        images, targets = next(batch_iterator)
+        #images, targets = next(batch_iterator)
+        try:
+             images, targets = next(batch_iterator)
+        except StopIteration:
+             batch_iterator = iter(data_loader)
+             images, targets = next(batch_iterator)
 
         images = Variable(images)
         targets = [Variable(ann, volatile=True) for ann in targets]
@@ -141,7 +146,7 @@ def train():
         loc_loss += loss_l.data
         conf_loss += loss_c.data
 
-        if iteration % 10 == 0:
+        if iteration % 2 == 0:
             print('timer: %.4f sec.' % (t1 - t0))
             print('iter ' + repr(iteration) + ' || Loss: %.4f ||' % (loss.data), end=' ')
 
