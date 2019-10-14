@@ -66,12 +66,12 @@ if torch.cuda.is_available():
 else:
     torch.set_default_tensor_type('torch.FloatTensor')
 
-annopath = os.path.join(args.voc_root, 'VOC2007', 'Annotations', '%s.xml')
-imgpath = os.path.join(args.voc_root, 'VOC2007', 'JPEGImages', '%s.jpg')
-imgsetpath = os.path.join(args.voc_root, 'VOC2007', 'ImageSets',
+annopath = os.path.join(args.voc_root, 'LEAF2019', 'Annotations', '%s.xml')
+imgpath = os.path.join(args.voc_root, 'LEAF2019', 'JPEGImages', '%s.jpg')
+imgsetpath = os.path.join(args.voc_root, 'LEAF2019', 'ImageSets',
                           'Main', '{:s}.txt')
-YEAR = '2007'
-devkit_path = args.voc_root + 'VOC' + YEAR
+YEAR = '2019'
+devkit_path = args.voc_root + 'LEAF' + YEAR
 dataset_mean = (104, 117, 123)
 set_type = 'test'
 
@@ -134,7 +134,6 @@ def get_output_dir(name, phase):
 
 
 def get_voc_results_file_template(image_set, cls):
-    # VOCdevkit/VOC2007/results/det_test_aeroplane.txt
     filename = 'det_' + image_set + '_%s.txt' % (cls)
     filedir = os.path.join(devkit_path, 'results')
     if not os.path.exists(filedir):
@@ -160,7 +159,7 @@ def write_voc_results_file(all_boxes, dataset):
                                    dets[k, 2] + 1, dets[k, 3] + 1))
 
 
-def do_python_eval(output_dir='output', use_07=True):
+def do_python_eval(output_dir='output', use_07=False):
     cachedir = os.path.join(devkit_path, 'annotations_cache')
     aps = []
     # The PASCAL VOC metric changed in 2010
@@ -191,7 +190,7 @@ def do_python_eval(output_dir='output', use_07=True):
     print('--------------------------------------------------------------')
 
 
-def voc_ap(rec, prec, use_07_metric=True):
+def voc_ap(rec, prec, use_07_metric=False):
     """ ap = voc_ap(rec, prec, [use_07_metric])
     Compute VOC AP given precision and recall.
     If use_07_metric is true, uses the
@@ -231,7 +230,7 @@ def voc_eval(detpath,
              classname,
              cachedir,
              ovthresh=0.5,
-             use_07_metric=True):
+             use_07_metric=False):
     """rec, prec, ap = voc_eval(detpath,
                            annopath,
                            imagesetfile,
@@ -426,7 +425,7 @@ if __name__ == '__main__':
     net.eval()
     print('Finished loading model!')
     # load data
-    dataset = VOCDetection(args.voc_root, [('2007', set_type)],
+    dataset = VOCDetection(args.voc_root, [('2019', set_type)],
                            BaseTransform(300, dataset_mean),
                            VOCAnnotationTransform())
     if args.cuda:

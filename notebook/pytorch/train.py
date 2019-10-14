@@ -29,10 +29,9 @@ parser.add_argument('--dataset_root', default=VOC_ROOT,
                     help='Dataset root directory path')
 parser.add_argument('--basenet', default='vgg16_reducedfc.pth',
                     help='Pretrained base model')
-parser.add_argument('--batch_size', default=16, type=int,
+parser.add_argument('--batch_size', default=32, type=int,
                     help='Batch size for training')
-#parser.add_argument('--resume', default='weights/ssd300_LEAF_50.pth', type=str,
-parser.add_argument('--resume', default=None, type=str,
+parser.add_argument('--resume', default='weights/ssd300_LEAF_50.pth', type=str,
                     help='Checkpoint state_dict file to resume training from')
 parser.add_argument('--start_iter', default=0, type=int,
                     help='Resume training at this iter')
