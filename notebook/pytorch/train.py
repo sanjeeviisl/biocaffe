@@ -151,7 +151,7 @@ def train():
             print('iter ' + repr(iteration) + ' || Loss: %.4f ||' % (loss.data), end=' ')
 
 
-        if iteration != 0 and iteration % 5000 == 0:
+        if iteration != 0 and iteration % 50 == 0:
             print('Saving state, iter:', iteration)
             torch.save(ssd_net.state_dict(), 'weights/ssd300_COCO_' +
                        repr(iteration) + '.pth')
