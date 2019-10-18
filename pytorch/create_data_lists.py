@@ -1,0 +1,6 @@
+from utils import create_data_lists
+
+if __name__ == '__main__':
+    create_data_lists(voc07_path='/hdd/data/LeafDetectData/LEAF2019',
+                      voc12_path='/hdd/data/LeafDetectData/LEAF2019',
+                      output_folder='./')
