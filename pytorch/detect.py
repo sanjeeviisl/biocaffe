@@ -97,7 +97,8 @@ def detect(original_image, min_score, max_overlap, top_k, suppress=None):
 
 
 if __name__ == '__main__':
-    img_path = '/hdd/data/LeafDetectData/LEAF2019/JPEGImages/Potato_Early_blight_masked_28139.jpg'
+    #img_path = '/hdd/data/LeafDetectData/LEAF2019/JPEGImages/Potato_Early_blight_masked_28139.jpg'
+    img_path = 'test_pic.jpg'
     original_image = Image.open(img_path, mode='r')
     original_image = original_image.convert('RGB')
-    detect(original_image, min_score=0.5, max_overlap=0.2, top_k=200).show()
+    detect(original_image, min_score=0.4, max_overlap=0.5, top_k=200).show()
