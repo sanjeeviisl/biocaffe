@@ -5,6 +5,9 @@ import torch.utils.data
 from model import SSD300, MultiBoxLoss
 from datasets import PascalVOCDataset
 from utils import *
+import warnings
+
+warnings.filterwarnings("ignore")
 
 # Data parameters
 data_folder = './'  # folder with data files
@@ -16,7 +19,7 @@ n_classes = len(label_map)  # number of different types of objects
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # Learning parameters
-checkpoint =  None #"/hdd/biocaffe/pytorch/BEST_checkpoint_ssd300.pth.tar" #None  # path to model checkpoint, None if none
+checkpoint =  "BEST_checkpoint_ssd300.pth.tar" #None  # path to model checkpoint, None if none
 batch_size = 8  # batch size
 start_epoch = 0  # start at this epoch
 epochs = 200  # number of epochs to run without early-stopping
