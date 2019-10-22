@@ -10,18 +10,54 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 # Label map
 #voc_labels = ('aeroplane', 'bicycle', 'bird', 'boat', 'bottle', 'bus', 'car', 'cat', 'chair', 'cow', 'diningtable',
 #              'dog', 'horse', 'motorbike', 'person', 'pottedplant', 'sheep', 'sofa', 'train', 'tvmonitor')
-voc_labels = ('potato_healthy','potato_early_blight','infected_potato_early_blight',
-           'potato_late_blight','infected_potato_late_blight','tomato_healthy',
-           'tomato_early_blight','infected_tomato_early_blight','tomato_late_blight','infected_tomato_late_blight')
+#voc_labels = ('potato_healthy','potato_early_blight','infected_potato_early_blight',
+#           'potato_late_blight','infected_potato_late_blight','tomato_healthy',
+#           'tomato_early_blight','infected_tomato_early_blight','tomato_late_blight','infected_tomato_late_blight')
+
+voc_labels = ( 
+            'potato_healthy',
+            'infected_potato_early_blight',
+            'potato_early_blight',
+            'infected_potato_late_blight',
+            'potato_late_blight',
+            'tomato_healthy',
+            'infected_tomato_septoria_spot',
+            'tomato_septoria_spot',
+            'infected_tomato_spider_mites',
+            'tomato_spider_mites',
+            'infected_tomato_target_spot',
+            'tomato_target_spot',
+            'infected_tomato_curl_virus',
+            'tomato_curl_virus',
+            'infected_tomato_mosaic_virus',
+            'tomato_mosaic_virus',
+            'infected_tomato_leaf_mold',
+            'tomato_leaf_mold',
+            'infected_tomato_bacterial_spot',
+            'tomato_bacterial_spot',
+            'infected_tomato_early_blight',
+            'tomato_early_blight',
+            'infected_tomato_late_blight',
+            'tomato_late_blight',
+            'corn_healthy',
+            'infected_corn_common_rust',
+            'corn_common_rust',
+            'infected_corn_gray_leaf',
+            'corn_gray_leaf',
+            'infected_corn_northern_Blight',
+            'corn_northern_blight'
+           )
+
 
 label_map = {k: v + 1 for v, k in enumerate(voc_labels)}
 label_map['background'] = 0
 rev_label_map = {v: k for k, v in label_map.items()}  # Inverse mapping
 
 # Color map for bounding boxes of detected objects from https://sashat.me/2017/01/11/list-of-20-simple-distinct-colors/
-distinct_colors = ['#e6194b', '#3cb44b', '#ffe119', '#0082c8', '#f58231', '#911eb4', '#46f0f0', '#f032e6',
-                   '#d2f53c', '#fabebe', '#008080', '#000080', '#aa6e28', '#fffac8', '#800000', '#aaffc3', '#808000',
-                   '#ffd8b1', '#e6beff', '#808080', '#FFFFFF']
+distinct_colors = ['#e6194b', '#3cb44b', '#ffe119', '#0082c8', '#f58231', '#911eb4', '#46f0f0', '#f032e6','#f035e6',
+                   '#d2f53c', '#fabebe', '#008080', '#000080', '#aa6e28', '#fff6c8', '#805000', '#aa6fc3', '#808060',
+                   '#d2f63c', '#fadebe', '#008480', '#004080', '#aa5e28', '#ff5ac8', '#800000', '#aaffc3', '#808000',
+                   '#ffd8b1', '#e6beff', '#808080', '#808580','#FFFFFF']
 label_color_map = {k: distinct_colors[i] for i, k in enumerate(label_map.keys())}
 
 
@@ -55,23 +91,21 @@ def parse_annotation(annotation_path):
     return {'boxes': boxes, 'labels': labels, 'difficulties': difficulties}
 
 
-def create_data_lists(voc07_path, voc12_path, output_folder):
+def create_data_lists(voc07_path, output_folder):
     """
     Create lists of images, the bounding boxes and labels of the objects in these images, and save these to file.
 
     :param voc07_path: path to the 'VOC2007' folder
-    :param voc12_path: path to the 'VOC2012' folder
     :param output_folder: folder where the JSONs must be saved
     """
     voc07_path = os.path.abspath(voc07_path)
-    voc12_path = os.path.abspath(voc12_path)
 
     train_images = list()
     train_objects = list()
     n_objects = 0
 
     # Training data
-    for path in [voc07_path, voc12_path]:
+    for path in [voc07_path]:
 
         # Find IDs of images in training data
         with open(os.path.join(path, 'ImageSets/Main/trainval.txt')) as f:
