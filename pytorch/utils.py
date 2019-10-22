@@ -10,9 +10,6 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 # Label map
 #voc_labels = ('aeroplane', 'bicycle', 'bird', 'boat', 'bottle', 'bus', 'car', 'cat', 'chair', 'cow', 'diningtable',
 #              'dog', 'horse', 'motorbike', 'person', 'pottedplant', 'sheep', 'sofa', 'train', 'tvmonitor')
-#voc_labels = ('potato_healthy','potato_early_blight','infected_potato_early_blight',
-#           'potato_late_blight','infected_potato_late_blight','tomato_healthy',
-#           'tomato_early_blight','infected_tomato_early_blight','tomato_late_blight','infected_tomato_late_blight')
 
 voc_labels = ( 
             'potato_healthy',
@@ -68,8 +65,8 @@ def parse_annotation(annotation_path):
     boxes = list()
     labels = list()
     difficulties = list()
-    print(annotation_path)
-    print("\n")
+    #print(annotation_path)
+    #print("\n")
     for object in root.iter('object'):
 
         difficult = int(object.find('difficult').text == '1')
