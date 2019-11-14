@@ -41,7 +41,7 @@ voc_labels = (
             'corn_common_rust',
             'infected_corn_gray_leaf',
             'corn_gray_leaf',
-            'infected_corn_northern_Blight',
+            'infected_corn_northern_blight',
             'corn_northern_blight'
            )
 

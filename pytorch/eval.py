@@ -3,6 +3,12 @@ from datasets import PascalVOCDataset
 from tqdm import tqdm
 from pprint import PrettyPrinter
 import warnings
+import resource
+
+rlimit = resource.getrlimit(resource.RLIMIT_NOFILE)
+
+resource.setrlimit(resource.RLIMIT_NOFILE, (4096, rlimit[1]))
+
 
 warnings.filterwarnings("ignore")
 
@@ -12,7 +18,7 @@ pp = PrettyPrinter()
 # Parameters
 data_folder = './'
 keep_difficult = True  # difficult ground truth objects must always be considered in mAP calculation, because these objects DO exist!
-batch_size = 8
+batch_size = 16
 workers = 4
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 checkpoint = './BEST_checkpoint_ssd300.pth.tar'
