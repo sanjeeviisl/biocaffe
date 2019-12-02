@@ -64,7 +64,7 @@ parser.add_argument('--extra_layers_lr', default=None, type=float,
 parser.add_argument('--base_net',
                     help='Pretrained base model')
 parser.add_argument('--pretrained_ssd', help='Pre-trained base model')
-parser.add_argument('--resume', default="models/mb2-ssd-lite-Epoch-30-Loss-4.295487221549539.pth", type=str,
+parser.add_argument('--resume', default="models/mb2-ssd-lite-Epoch-20-Loss-3.8457889556884766.pth", type=str,
                     help='Checkpoint state_dict file to resume training from')
 
 # Scheduler
