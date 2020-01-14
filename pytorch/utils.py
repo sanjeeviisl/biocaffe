@@ -8,8 +8,6 @@ import torchvision.transforms.functional as FT
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # Label map
-#voc_labels = ('aeroplane', 'bicycle', 'bird', 'boat', 'bottle', 'bus', 'car', 'cat', 'chair', 'cow', 'diningtable',
-#              'dog', 'horse', 'motorbike', 'person', 'pottedplant', 'sheep', 'sofa', 'train', 'tvmonitor')
 
 voc_labels = ( 
             'potato_healthy',
@@ -21,11 +19,8 @@ voc_labels = (
             'infected_tomato_septoria_spot',
             'tomato_septoria_spot',
             'infected_tomato_spider_mites',
-            'tomato_spider_mites',
             'infected_tomato_target_spot',
-            'tomato_target_spot',
             'infected_tomato_curl_virus',
-            'tomato_curl_virus',
             'infected_tomato_mosaic_virus',
             'tomato_mosaic_virus',
             'infected_tomato_leaf_mold',
