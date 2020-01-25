@@ -29,8 +29,9 @@ parser = argparse.ArgumentParser(
 parser.add_argument("--dataset_type", default="voc", type=str,
                     help='Specify dataset type. Currently support voc and open_images.')
 
-parser.add_argument('--datasets', nargs='+', help='Dataset directory path')
-parser.add_argument('--validation_dataset', help='Dataset directory path')
+parser.add_argument('--train_dataset_path', default="/hdd/data/LeafDetectData/LEAF2019", type=str, help='Dataset directory path')
+parser.add_argument('--validation_dataset', default="/hdd/data/LeafDetectData/LEAF2019", type=str, help='Dataset directory path')
+
 parser.add_argument('--balance_data', action='store_true',
                     help="Balance training data by down-sampling more frequent labels.")
 
@@ -61,14 +62,14 @@ parser.add_argument('--extra_layers_lr', default=None, type=float,
 
 
 # Params for loading pretrained basenet or checkpoints.
-parser.add_argument('--base_net',
+parser.add_argument('--base_net', default="models/mb2-imagenet-71_8.pth", type=str,
                     help='Pretrained base model')
 parser.add_argument('--pretrained_ssd', help='Pre-trained base model')
 parser.add_argument('--resume', default=None, type=str,
                     help='Checkpoint state_dict file to resume training from')
 
 # Scheduler
-parser.add_argument('--scheduler', default="multi-step", type=str,
+parser.add_argument('--scheduler', default="cosine", type=str,
                     help="Scheduler for SGD. It can one of multi-step and cosine")
 
 # Params for Multi-step Scheduler
@@ -190,53 +191,43 @@ if __name__ == '__main__':
         logging.fatal("The net type is wrong.")
         parser.print_help(sys.stderr)
         sys.exit(1)
+    
+
     train_transform = TrainAugmentation(config.image_size, config.image_mean, config.image_std)
     target_transform = MatchPrior(config.priors, config.center_variance,
                                   config.size_variance, 0.5)
 
     test_transform = TestTransform(config.image_size, config.image_mean, config.image_std)
 
-    logging.info("Prepare training datasets.")
-    datasets = []
-    for dataset_path in args.datasets:
-        if args.dataset_type == 'voc':
-            dataset = VOCDataset(dataset_path, transform=train_transform,
-                                 target_transform=target_transform)
-            label_file = os.path.join(args.checkpoint_folder, "voc-model-labels.txt")
-            store_labels(label_file, dataset.class_names)
-            num_classes = len(dataset.class_names)
-        elif args.dataset_type == 'open_images':
-            dataset = OpenImagesDataset(dataset_path,
-                 transform=train_transform, target_transform=target_transform,
-                 dataset_type="train", balance_data=args.balance_data)
-            label_file = os.path.join(args.checkpoint_folder, "open-images-model-labels.txt")
-            store_labels(label_file, dataset.class_names)
-            logging.info(dataset)
-            num_classes = len(dataset.class_names)
 
-        else:
-            raise ValueError(f"Dataset type {args.dataset_type} is not supported.")
-        datasets.append(dataset)
-    logging.info(f"Stored labels into file {label_file}.")
-    train_dataset = ConcatDataset(datasets)
+
+    
+
+    logging.info("Prepare training datasets.")
+    if args.dataset_type == 'voc':
+        train_dataset =  VOCDataset(args.train_dataset_path, transform=train_transform,
+                                 target_transform=target_transform)
+
     logging.info("Train dataset size: {}".format(len(train_dataset)))
     train_loader = DataLoader(train_dataset, args.batch_size,
                               num_workers=args.num_workers,
                               shuffle=True)
+    
     logging.info("Prepare Validation datasets.")
     if args.dataset_type == "voc":
         val_dataset = VOCDataset(args.validation_dataset, transform=test_transform,
                                  target_transform=target_transform, is_test=True)
-    elif args.dataset_type == 'open_images':
-        val_dataset = OpenImagesDataset(dataset_path,
-                                        transform=test_transform, target_transform=target_transform,
-                                        dataset_type="test")
-        logging.info(val_dataset)
     logging.info("validation dataset size: {}".format(len(val_dataset)))
 
     val_loader = DataLoader(val_dataset, args.batch_size,
                             num_workers=args.num_workers,
                             shuffle=False)
+    
+    label_file = os.path.join(args.checkpoint_folder, "voc-model-labels.txt")
+    store_labels(label_file, train_dataset.class_names)
+    num_classes = len(train_dataset.class_names)
+    logging.info(f"Stored labels into file {label_file}.")
+
     logging.info("Build network.")
     net = create_net(num_classes)
     min_loss = -10000.0

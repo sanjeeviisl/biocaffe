@@ -27,6 +27,7 @@ class VOCDataset:
         # if the labels file exists, read in the class names
         label_file_name = self.root / "labels.txt"
 
+        logging.info( label_file_name)
         if os.path.isfile(label_file_name):
             class_string = ""
             with open(label_file_name, 'r') as infile:
